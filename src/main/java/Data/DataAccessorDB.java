@@ -15,53 +15,29 @@ import java.util.List;
  *
  * @author Bruger
  */
-public class DataAccessorDB{
+public class DataAccessorDB {
     
-
-    public List<recipe> getrecipes() {
-        ArrayList<recipe> list = new ArrayList<>();
-
+    static public recipe getRecipe(String name) {
+        recipe res = null;
         try {
             DBConnector c = new DBConnector();
 
-            String query = "SELECT * FROM frame ORDER BY price;";
+            String query = "SELECT Instructions, ingredients FROM db_recipes.recipes WHERE Recipe_name = '" + name + "';";
 
             Connection connection = c.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String name = rs.getString("frame_name");
-                int price = rs.getInt("price");
-
-                list.add(new recipes(name, price));
+                String inst = rs.getString("Instructions");
+                String ingred = rs.getString("ingredients");
+                res = new recipe(name, inst, ingred);
             }
+            System.out.println(res);
+            return res;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        System.out.println(res);
+        return res;
     }
-
-    public Frame getFrame(String name) throws DataException {
-        Frame frame = null;
-
-        try {
-            DBConnector c = new DBConnector();
-
-            String query = "SELECT * FROM frame WHERE frame_name = '" + name + "';";
-
-            Connection connection = c.getConnection();
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                int price = rs.getInt("price");
-
-                frame = new Frame(name, price);
-            }
-            return frame;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return frame;
-    }
-
 }

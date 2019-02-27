@@ -7,6 +7,12 @@ public class recipe {
     private String instructions;
     private String ingredients;
 
+    public recipe(String recipe_name, String instructions, String ingredients) {
+        this.recipe_name = recipe_name;
+        this.instructions = instructions;
+        this.ingredients = ingredients;
+    }
+
     public String getRecipe_name() {
         return recipe_name;
     }
